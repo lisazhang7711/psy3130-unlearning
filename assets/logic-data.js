@@ -1,0 +1,310 @@
+/* PSY3130 论证流重构版：五条叙事线，每条线四阶段（误解 / 辩白 / 辩白的边界 / 换一种问法）
+   证据复用 data.js（window.PSY）里的 60 个关键词；本文件的 en 表提供英文对照。
+   字符串一律用双引号，内容内引文用单引号，避免撇号冲突。 */
+
+window.LOGIC = {
+  i18n: {
+    zh: {
+      kicker: "PSY3130 / Psychology of Leadership / AY2026-27 Term 1",
+      title: "领导力的另一面",
+      sub: "五个误解，各自的辩白，辩白的边界，以及换一种问法",
+      lede: "这一版不再按周排列。五条叙事线各从一个误解出发：传统智慧怎么替它辩护，必读文献把辩白挡在哪里，换一种问法之后实践可以怎么动。点开任意节点看论述与证据，或让页面替你走一遍。",
+      langLabel: "语言",
+      play: "动态辅助｜自动推演",
+      pause: "暂停推演",
+      reset: "重置",
+      focus: "聚焦",
+      focusAll: "全部五条",
+      compare: "误解与辩白的本质区别",
+      compareTitle: "辩白看起来在反驳误解，其实和误解共用同一个前提",
+      compareNote: "每行读法：左列是误解的前提，中列是辩白的逻辑，右列点出这一对共同回避的东西。共同前提没被碰掉，反驳就还没有发生。",
+      chartCaption: "中心放射出五条叙事，每条按四步推进；实心圆是拆解（反），空心圆是重建（正）。",
+      stageMyth: "误解",
+      stageDefense: "辩白",
+      stageLimits: "辩白的边界",
+      stageAction: "换一种问法",
+      stageMythHint: "传统智慧的主张",
+      stageDefenseHint: "主流理论替它辩护",
+      stageLimitsHint: "必读把辩白挡在哪里",
+      stageActionHint: "换一种问法之后",
+      evidence: "必读证据",
+      evidenceHint: "点开看每个关键词对应的那句话",
+      detailHint: "点导图上的任意节点，这里显示该阶段的论述与证据。",
+      walkthrough: "正在推演",
+      threadLabel: "叙事",
+      cardsTitle: "逐条细读（展开形式）",
+      contra: "反",
+      pro: "正",
+      required: "必读",
+      inferred: "主题推导",
+      weekLabel: "周次",
+      close: "关闭",
+      timelineLink: "按周排列的时间线版本仍在这里",
+      sourceNote: "证据来自 course outline §10 的 Class 1 与 Class 2 必读；标注「主题推导」的场次无指定文献，按该周主题提炼，引用 Additional resources 的地方在时间线版里单独注明。",
+      footerNote: "本页是课程阅读的批判性梳理，不替代原文献，交作业前请回查原文。"
+    },
+    en: {
+      kicker: "PSY3130 / Psychology of Leadership / AY2026-27 Term 1",
+      title: "The Other Side of Leadership",
+      sub: "Five myths, their defences, the limits of those defences, and a different question",
+      lede: "This version drops the weekly order. Each thread starts from a myth: how mainstream theory defends it, where the required readings push back, and what practice looks like once the question changes. Click any node for the argument and evidence, or let the page walk you through.",
+      langLabel: "Language",
+      play: "Assisted walk-through",
+      pause: "Pause",
+      reset: "Reset",
+      focus: "Focus",
+      focusAll: "All five",
+      compare: "Myth vs defence, the real difference",
+      compareTitle: "The defence looks like a rebuttal of the myth; both actually share one premise",
+      compareNote: "How to read each row: the left column is the premise of the myth, the middle is the logic of the defence, the right names what the pair avoids together. Until the shared premise is touched, no rebuttal has happened.",
+      chartCaption: "Five threads radiate from the centre, each advancing in four steps; filled dots are critiques (contra), hollow dots are rebuilds (pro).",
+      stageMyth: "Myth",
+      stageDefense: "Defence",
+      stageLimits: "Limits of the defence",
+      stageAction: "A different question",
+      stageMythHint: "What conventional wisdom claims",
+      stageDefenseHint: "How mainstream theory defends it",
+      stageLimitsHint: "Where the required readings push back",
+      stageActionHint: "Once the question changes",
+      evidence: "Required-reading evidence",
+      evidenceHint: "Open each keyword to see its one-line claim",
+      detailHint: "Click any node on the map to see the argument and evidence for that stage.",
+      walkthrough: "Walking through",
+      threadLabel: "Thread",
+      cardsTitle: "Read thread by thread (expanded view)",
+      contra: "contra",
+      pro: "pro",
+      required: "required",
+      inferred: "inferred",
+      weekLabel: "Week",
+      close: "Close",
+      timelineLink: "The week-by-week timeline version is still here",
+      sourceNote: "Evidence comes from Class 1 and Class 2 assigned readings in the course outline, section 10. Sessions marked inferred had no assigned reading; keywords were derived from that week theme. Additional-resources citations are listed separately in the timeline version.",
+      footerNote: "This page is a critical digest of course readings, not a substitute for the originals. Return to the sources before submitting anything."
+    }
+  },
+
+  stageKeys: ["myth", "defense", "limits", "action"],
+
+  threads: [
+    {
+      id: "t1", num: "01", color: "#963b2c", short: { zh: "特质与个人", en: "Traits and the person" },
+      title: { zh: "领导是某个人，或某种特质", en: "The leader is a person with traits" },
+      question: { zh: "组织出了问题，为什么答案总落在找一个人、换一个人上？", en: "When an organisation fails, why does the answer keep landing on finding or replacing one person?" },
+      stages: {
+        myth: { short: { zh: "天选之人", en: "Born leader" },
+          text: { zh: "领导被当成一个人揣着的东西。传记、特质清单、魅力叙事讲的是同一件事：结果由顶端那个人决定，找到对人，问题就有解。",
+            en: "Leadership is treated as something a person carries. Biographies, trait checklists and charisma narratives tell one story: outcomes are decided by whoever sits at the top, and the right person solves the problem." } },
+        defense: { short: { zh: "可测可换", en: "Measurable, replaceable" },
+          text: { zh: "主流理论的辩白是「可测量、可培养、可替换」：特质模型把人拆成维度，变革型领导把愿景写进量表，招聘按「像不像现任」筛人。听起来在管理风险，落点仍在选人。",
+            en: "The mainstream defence is measurability, trainability and replaceability: trait models break people into dimensions, transformational leadership turns vision into a scale, hiring screens for resemblance to the incumbent. It sounds like risk management; the landing point is still selection." } },
+        limits: { short: { zh: "漏掉结构", en: "Structure missing" },
+          text: { zh: "这批必读把辩白逐条挡回去：PNAS 的数据拆穿「不讨喜者更容易夺权」；领导者中心的归因漏掉结构、追随者与资源；样本只取到已经上位的人；Enron 与 Jonestown 说明魅力推到头会出人命。",
+            en: "The required readings push back point by point: PNAS data undercuts the claim that disagreeable people win power; leader-centred attribution drops structure, followers and resources; samples only include people who already made it; Enron and Jonestown mark where charisma ends." } },
+        action: { short: { zh: "从人到关系", en: "Person to relation" },
+          text: { zh: "把问题从「谁该来领导」换成「什么让领导显得必要」。记录谁在什么时候接住了任务，给异见留固定通道，让流程在负责人缺席时照常跑。",
+            en: "Swap 'who should lead' for 'what makes leadership appear necessary'. Log who picks up work and when, keep a standing channel for dissent, and let the process run while the person in charge is away." } }
+      },
+      evidence: {
+        myth: ["w1-1-contra", "w3-0-contra", "w3-0-pro"],
+        defense: ["w3-1-contra", "w5-1-contra", "w9-1-contra"],
+        limits: ["w1-1-pro", "w3-1-pro", "w9-0-contra"],
+        action: ["w9-0-pro", "w5-1-pro", "w5-0-contra"]
+      },
+      distinction: {
+        myth: { zh: "因果在个人：换对人就能解决", en: "Cause sits in the person: the right appointment fixes it" },
+        defense: { zh: "个人可测量、可替换，所以选人是合理干预", en: "Persons can be measured and swapped, so selection counts as intervention" },
+        crux: { zh: "辩白把「找对人」升级成「测准人」，看起来更科学，仍然把结构、位置与关系关在解释之外。分歧不在选谁，在要不要把关系写进因果。",
+          en: "The defence upgrades 'find the right person' into 'measure the right person' - more scientific in appearance, still locking structure, position and relations outside the explanation. The disagreement is not about who to pick but about whether relations belong in the causal story." }
+      }
+    },
+    {
+      id: "t2", num: "02", color: "#8a6728", short: { zh: "通用处方", en: "The universal recipe" },
+      title: { zh: "存在一套可搬用的处方", en: "A transferable model exists" },
+      question: { zh: "一套在别处有效的领导模型，凭什么在这里也成立？", en: "What licenses a leadership model that works elsewhere to work here?" },
+      stages: {
+        myth: { short: { zh: "通用处方", en: "Universal recipe" },
+          text: { zh: "情境被当成背景，模型被当成可以跨制度搬运的工具；找到匹配的风格，问题就算处理完。",
+            en: "Context is treated as background and the model as a tool that travels across institutions; match the style and the work is done." } },
+        defense: { short: { zh: "调参即可", en: "Tune the parameters" },
+          text: { zh: "权变理论说把情境参数调对就能匹配；勒温的民主式领导被引成管理技术；发展项目把「领袖的样子」做成可复制的课程，证书随发。",
+            en: "Contingency theory says tune the situational parameters and you have a match; Lewin's democratic leadership circulates as management technique; development programmes package 'what a leader looks like' into a replicable curriculum, certificates included." } },
+        limits: { short: { zh: "语境压不住", en: "Context resists" },
+          text: { zh: "Billig 把勒温放回战时与移民处境；权变模型把文化、历史、政治压成几个可调参数；课堂案例把特定行业经验升格成通则；全球南方的证据长期缺席。",
+            en: "Billig returns Lewin to his wartime and emigre conditions; contingency models squeeze culture, history and politics into adjustable parameters; classroom cases promote one industry's experience into a general law; Global South evidence has long been missing." } },
+        action: { short: { zh: "连来历一起搬", en: "Carry its history" },
+          text: { zh: "把理论连同它诞生的条件一起搬运；用当事人自述核对研究者的叙述；案例表按地区与身份列一遍，缺口当场可见。",
+            en: "Transfer the theory together with the conditions that produced it; check researcher accounts against what participants themselves say; list the case roster by region and identity so the gaps show on the spot." } }
+      },
+      evidence: {
+        myth: ["w1-0-contra", "w2-1-contra", "w4-0-contra"],
+        defense: ["w4-0-pro", "w2-1-pro", "w7a-0-contra"],
+        limits: ["w7a-0-pro", "w7a-1-contra", "w8-1-pro"],
+        action: ["w7a-1-pro", "w10-1-contra", "w10-1-pro"]
+      },
+      distinction: {
+        myth: { zh: "模型与语境可以分开", en: "Model and context are separable" },
+        defense: { zh: "加几个参数就能完成适配", en: "A few parameters complete the adaptation" },
+        crux: { zh: "辩白把「无脑照搬」修饰成「按情境调整」，但语境参与定义什么算领导，参数替代不了。搬运前要交代的来历，被参数表盖住了。",
+          en: "The defence decorates blind copying as contextual adjustment, yet context helps define what counts as leadership, and parameters cannot stand in for it. The history that should be declared before transfer gets buried under the parameter table." }
+      }
+    },
+    {
+      id: "t3", num: "03", color: "#274a63", short: { zh: "组织需要一个头", en: "An organisation needs a head" },
+      title: { zh: "组织需要一个头", en: "An organisation needs a head" },
+      question: { zh: "没有指定负责人，事情真的推不动吗？", en: "Does work really stall without an appointed person in charge?" },
+      stages: {
+        myth: { short: { zh: "总得有个头", en: "Needs a head" },
+          text: { zh: "混乱被读成领导缺位，于是呼唤强人；组织图上没有框，就等于没有人负责。",
+            en: "Disorder gets read as missing leadership, so the call goes out for a strongman; if the org chart has no box, then nobody is responsible." } },
+        defense: { short: { zh: "写进岗位", en: "Written into roles" },
+          text: { zh: "headship 与职权链把协调写成岗位属性；「管理者与领导者」的二分替组织图撑腰；工位布局与平台调度把控制装进流程，看起来与权力无关。",
+            en: "Headship and reporting lines write coordination into job titles; the manager-leader dichotomy backs the org chart; workstation layouts and platform dispatch pack control into process, looking nothing like power." } },
+        limits: { short: { zh: "协调在关系里", en: "Coordination lives in relations" },
+          text: { zh: "印度性工作者项目靠劝说、抗议、换人情动员地方支持；滴滴司机在排班与群聊里协调；中国青年的网络参与没有领袖也在运转；空间比制度更早决定谁能开口。",
+            en: "Indian sex workers mobilised local support by persuading, protesting and trading favours; Didi drivers coordinate through shift schedules and group chats; Chinese youth's online participation runs without a figurehead; space decides who can speak earlier than any policy does." } },
+        action: { short: { zh: "看信息在哪断", en: "Trace the break" },
+          text: { zh: "查清信息在哪里断的，再决定要不要设岗；试点无固定召集人的项目组；把工位、群权限、会议地点列进组织诊断清单。",
+            en: "Trace where information breaks before deciding to create a post; pilot a project group with no fixed convener; put workstations, group-chat permissions and meeting venues on the organisational diagnostic list." } }
+      },
+      evidence: {
+        myth: ["w2-0-contra", "w2-0-pro", "w10-0-contra"],
+        defense: ["w11-0-contra", "w11-0-pro", "w7b-0-contra"],
+        limits: ["w7b-0-pro", "w10-0-pro", "w11-1-contra"],
+        action: ["w11-1-pro", "w6-1-contra", "w6-1-pro"]
+      },
+      distinction: {
+        myth: { zh: "协调需要一个中心", en: "Coordination requires a centre" },
+        defense: { zh: "把中心写进岗位与流程就万事俱备", en: "Write the centre into roles and flows and everything is in place" },
+        crux: { zh: "辩白把「中心」从人挪到岗位和系统，中心感还在。协调实际发生在关系、空间与日常网络里，中心常常是事后追认的。",
+          en: "The defence moves the centre from a person into roles and systems, and the feeling of a centre survives. Coordination actually happens in relations, space and everyday networks; the centre is often named after the fact." }
+      }
+    },
+    {
+      id: "t4", num: "04", color: "#6d4a35", short: { zh: "包容作为加法", en: "Inclusion as addition" },
+      title: { zh: "包容等于把更多人放进既有结构", en: "Inclusion means adding people" },
+      question: { zh: "让更多人进来，结构这一层要不要跟着改？", en: "If more people come in, does the structure itself have to change?" },
+      stages: {
+        myth: { short: { zh: "做加法", en: "Simple addition" },
+          text: { zh: "差异是可控变量，多样性是一道加法题：名额加上、照片换掉，包容就算完成。",
+            en: "Difference is a controllable variable and diversity an exercise in addition: add seats, swap the photos, inclusion is done." } },
+        defense: { short: { zh: "数人头", en: "Counting heads" },
+          text: { zh: "DEI 的和谐叙事、「包容型领导」清单、玻璃悬崖研究都在数人头；名录由组织替缺席者说话，报告里只放合影与承诺。",
+            en: "Harmonious DEI narratives, inclusive-leadership checklists and glass-cliff research all count heads; the organisation speaks for those absent, and the report carries group photos and pledges." } },
+        limits: { short: { zh: "结构不改", en: "Structure unchanged" },
+          text: { zh: "差异参与构成领导，白骑士式的英雄化也在其中；交叉性隐身让高管黑人女性的经验进不了模型；优势群体对 DEI 的威胁感被 Happy Talk 盖住；谁在画「我们」的边界，这个动作一直躲着不被问。",
+            en: "Difference helps constitute leadership, and white-knight heroisation is part of it; intersectional invisibility keeps the experience of Black women executives out of the models; happy talk covers the threat advantaged groups feel toward DEI; the act of drawing the boundary of 'we' keeps dodging the question." } },
+        action: { short: { zh: "问谁承担代价", en: "Ask who pays" },
+          text: { zh: "追问名录里缺席了谁；从全球南方取证据；把谁承担代价写进立项模板；展签列出每人做了什么，不写单一负责人。",
+            en: "Ask who is missing from the roster; take evidence from the Global South; write who bears the cost into the project template; list on the exhibit label what each person did, not a single lead." } }
+      },
+      evidence: {
+        myth: ["w8-0-contra", "w8-0-pro", "w8-1-contra"],
+        defense: ["w9-1-pro", "w12-0-contra", "w12-0-pro"],
+        limits: ["w12-1-contra", "w12-1-pro", "w14-1-contra"],
+        action: ["w14-1-pro", "w7b-1-contra", "w7b-1-pro"]
+      },
+      distinction: {
+        myth: { zh: "结构中性，问题在代表性不足", en: "The structure is neutral; the problem is under-representation" },
+        defense: { zh: "增加名额与可见度即完成包容", en: "More seats and more visibility complete inclusion" },
+        crux: { zh: "辩白把「进不进得来」换成「进来的够不够多」，结构里谁被看见、谁承担代价这个现场，两边都没有碰。",
+          en: "The defence swaps 'can they get in' for 'are enough of them in'; the actual site - who is seen and who bears the cost inside the structure - is left untouched by both." }
+      }
+    },
+    {
+      id: "t5", num: "05", color: "#2c5c4c", short: { zh: "工具中立", en: "Neutral tools" },
+      title: { zh: "数据与愿景是中性的", en: "Metrics and vision are neutral" },
+      question: { zh: "工具不带立场，这句话替谁省了事？", en: "Who is spared trouble by the claim that tools carry no position?" },
+      stages: {
+        myth: { short: { zh: "工具中立", en: "Neutral tools" },
+          text: { zh: "指标、平台、愿景被当成纯工具：系统显示什么，什么算事实；愿景贴在墙上，凝聚自然发生。",
+            en: "Metrics, platforms and visions count as pure tools: whatever the system displays is fact; the vision goes on the wall and cohesion follows." } },
+        defense: { short: { zh: "技术优化", en: "Technical fix" },
+          text: { zh: "平台称调度为技术优化；AI 治理写成参数与合规项；「为组织好」与「发展为了谁」把分配问题推到看不见的后面。",
+            en: "Platforms call dispatch technical optimisation; AI governance gets written as parameters and compliance items; 'for the good of the organisation' and 'development for whom' push distribution questions out of sight." } },
+        limits: { short: { zh: "代价被推迟", en: "Costs deferred" },
+          text: { zh: "数据即客观把责任藏进「系统显示」；外卖骑手与司机的劳动被算法折叠；高权力距离下「为组织好」更容易压掉异见；魅力与共同身份推到极端，代价以人命计。",
+            en: "Data-as-objective hides responsibility behind 'the system shows'; the labour of riders and drivers is folded away by algorithms; under high power distance, 'for the good of the organisation' more easily silences dissent; pushed to the extreme, charisma and shared identity cost lives." } },
+        action: { short: { zh: "为谁、在哪", en: "For whom, where" },
+          text: { zh: "每个指标配一段从业者口述；上线评估加一栏受影响人群与申诉路径；把目的、对象、地点一起问出来，再谈效果。",
+            en: "Pair every metric with an account from the workers themselves; add a field for affected groups and appeal channels to launch reviews; settle purpose, audience and place before talking about performance." } }
+      },
+      evidence: {
+        myth: ["w13-0-contra", "w13-1-contra", "w4-1-contra"],
+        defense: ["w6-0-contra", "w4-1-pro", "w1-0-pro"],
+        limits: ["w13-0-pro", "w13-1-pro", "w6-0-pro"],
+        action: ["w14-0-contra", "w14-0-pro", "w5-0-pro"]
+      },
+      distinction: {
+        myth: { zh: "工具与后果可以分开", en: "Tools and consequences are separable" },
+        defense: { zh: "优化工具即等于改善结果", en: "Optimising the tool equals improving the outcome" },
+        crux: { zh: "辩白把「谁定义字段」说成参数问题，把「谁承担代价」说成实施细节。定义权与代价的分配，从头到尾都是政治问题。",
+          en: "The defence recasts 'who defines the field' as a parameters question and 'who bears the cost' as an implementation detail. The allocation of defining power and of cost was political from beginning to end." }
+      }
+    }
+  ],
+
+  /* 60 个证据点的英文对照；中文从 window.PSY 读取（id = 周次块 id-场次序号-方向） */
+  en: {
+    "w1-0-contra": { t: "A historical accident", l: "Treating leadership as a cross-cultural human constant erases the stretch of history it grew out of: modern Western organisations." },
+    "w1-0-pro": { t: "Dispelling myths as a start", l: "The outline writes myth-dispelling into the course aims; the first exercise is to stop explaining outcomes by pointing at a leader." },
+    "w1-1-contra": { t: "Leader-centrism", l: "Crediting outcomes to one name removes structure, followers and resources from the explanation." },
+    "w1-1-pro": { t: "Power in relations", l: "Power moves through relationships and authorisation; who is heard matters more than who holds the seat." },
+    "w2-0-contra": { t: "Three terms collapsed", l: "Using leadership, management and headship as synonyms rewrites emotion and compliance as technical faults." },
+    "w2-0-pro": { t: "Emotion as power", l: "Controlling which feelings may be displayed is authority at work; analysis that includes it can see soft domination." },
+    "w2-1-contra": { t: "A sanitised theory", l: "Lewin's democratic leadership experiments circulate as management technique, stripped of their wartime and emigre context." },
+    "w2-1-pro": { t: "Restoring context", l: "Putting the experiments back into their social tensions is what makes 'no good thing so practical as a good theory' mean anything." },
+    "w3-0-contra": { t: "The Great Man story", l: "Explaining leadership through biographies and trait lists deletes birth, race and institutional gates from the story." },
+    "w3-0-pro": { t: "Who counts as a leader", l: "A textbook that puts diverse, inclusive and critical in its title starts by naming who is missing from the roster." },
+    "w3-1-contra": { t: "Disagreeable people win power?", l: "PNAS evidence dismantles the claim that selfish, combative people are more likely to gain power; pop psychology gets pushed back." },
+    "w3-1-pro": { t: "Position over personality", l: "Influence often comes from where someone sits in the network and when; trait inventories cannot account for that." },
+    "w4-0-contra": { t: "Context squeezed into variables", l: "Contingency models fold culture, history and politics into a few adjustable parameters; context becomes background noise." },
+    "w4-0-pro": { t: "Context is constitutive", l: "What a leader adapts to also defines which behaviours count as leadership locally." },
+    "w4-1-contra": { t: "No test site for universals", l: "When even the best-fit style depends on context, a table that holds across institutions deserves suspicion." },
+    "w4-1-pro": { t: "Public time shapes leadership", l: "Holidays and institutional rhythms help decide who is present and who can initiate; rarely part of any model." },
+    "w5-0-contra": { t: "Charisma's absence", l: "Days without a leader present are the cheapest test of whether an organisation deposited all its agency in one person." },
+    "w5-0-pro": { t: "Distributed agency", l: "Moving 'who drives change' off the podium and into daily work frees change from depending on one mobilisation." },
+    "w5-1-contra": { t: "Secularised theology", l: "Transformational leadership writes charisma, mission and conversion into management tools; Enron and Jonestown are its worst footnotes." },
+    "w5-1-pro": { t: "Room for dissent", l: "Once a unified culture stops tolerating dissent, organisational health collapses before performance does." },
+    "w6-0-contra": { t: "Technical fixes", l: "Treating conflict as a technical fault misdiagnoses the adaptive work that requires changing values and relationships." },
+    "w6-0-pro": { t: "Getting on the balcony", l: "Seeing the system's relationships and interests before acting; 'thinking politically' admits allies and costs into the plan." },
+    "w6-1-contra": { t: "Who gets to count", l: "Persuading, protesting and trading favours never make it onto mainstream leadership scales, so their actions get recorded as compliance." },
+    "w6-1-pro": { t: "A repertoire from the margins", l: "Putting sex workers' practices into required reading extends leadership theory to organisational experience from the Global South." },
+    "w7a-0-contra": { t: "Development as discipline", l: "Programmes shape people into presentable leaders; confessional self-narration gets assessed more than capability." },
+    "w7a-0-pro": { t: "From the learners' side", l: "Studying how participants experience a programme reveals how aesthetics and bodies shape what a leader is supposed to look like." },
+    "w7a-1-contra": { t: "The case that became a rule", l: "One classroom case retold as a general law quietly promotes the experience of a particular industry and class into a standard." },
+    "w7a-1-pro": { t: "Reflection as method", l: "Asking students to write from their own situations admits that knowledge comes from a position, not a vacuum." },
+    "w7b-0-contra": { t: "The reified leader", l: "Treating leadership as a property someone carries misses coordination, mutual influence and the temporary taking-up of tasks." },
+    "w7b-0-pro": { t: "Generated in relations", l: "Leadership happens in back-and-forth interaction; in one setting it can be taken up by different people in turn." },
+    "w7b-1-contra": { t: "Decontextualised exercises", l: "Role-play stripped of identity and power mostly trains fluent scripts." },
+    "w7b-1-pro": { t: "Holding difference", l: "Who speaks first and whose words get repeated are live data on inclusive leadership in the group." },
+    "w8-0-contra": { t: "Difference as a control variable", l: "Turning gender and ethnicity into regression controls hides how organisations actively produce those differences." },
+    "w8-0-pro": { t: "Difference is constitutive", l: "Leadership has always carried racialised and gendered marks; white-knight heroisation is one of them." },
+    "w8-1-contra": { t: "Inclusion as happy talk", l: "Narrating diversity as harmony covers over the threat advantaged groups feel toward DEI." },
+    "w8-1-pro": { t: "Evidence from the Global South", l: "Women's leadership in Vietnam and drama therapy in a Lebanese prison force theory beyond Euro-American samples." },
+    "w9-0-contra": { t: "The passive follower", l: "Writing followership as obedience fails to recognise 'who we are' as the engine of mobilisation." },
+    "w9-0-pro": { t: "Identity co-created", l: "Leaders and followers share a 'we'; influence flows from that shared identity, not from personal charisma." },
+    "w9-1-contra": { t: "Charisma's endpoint", l: "Discursive mobilisation can push a shared identity into mass suicide; identity guarantees no goodness." },
+    "w9-1-pro": { t: "Who draws the boundary of 'we'", l: "Platform visions and organisational stories draw boundaries; the critique lands on who defines them and who is left outside." },
+    "w10-0-contra": { t: "There must be a head", l: "Every bout of disorder calls for a strongman, and coordination failure gets booked as a missing boss." },
+    "w10-0-pro": { t: "Collaborative agency", l: "Rewriting leadership as collective agency lets you drop the appoint-a-person-in-charge step in practice." },
+    "w10-1-contra": { t: "Youth spoken for", l: "Lying flat and online participation are usually explained by outsiders; the participants' own accounts come second." },
+    "w10-1-pro": { t: "Prefigurative politics", l: "The means already carry the order people want; the process of participating counts as an end." },
+    "w11-0-contra": { t: "Space as neutral", l: "Treating offices, platforms and streets as background hides how layout distributes visibility and privacy." },
+    "w11-0-pro": { t: "Contesting space", l: "The call centre's 'assembly line in the head' shows physical arrangement decides who can speak before any policy does." },
+    "w11-1-contra": { t: "Algorithmic neutrality", l: "When platforms write dispatch as technical optimisation, labour and bargaining relationships disappear into code." },
+    "w11-1-pro": { t: "Drivers organising themselves", l: "People thrown under the bus reclaim space through shift schedules and group chats; leadership happens outside the org chart." },
+    "w12-0-contra": { t: "Ethics as clauses", l: "Writing ethics as compliance terms excludes bodies, fatigue and feelings from judgement." },
+    "w12-0-pro": { t: "Embodied care", l: "An ethnography of anti-money-laundering analysts shows ethics lives in bodily habits and team ethos." },
+    "w12-1-contra": { t: "Crisis hero narratives", l: "Pandemics get told as the story of a few decisive men; the care work that keeps daily life running is cut out." },
+    "w12-1-pro": { t: "An ethics of care", l: "Feminist crisis management puts 'who keeps the everyday running' back at the centre." },
+    "w13-0-contra": { t: "Data as objective fact", l: "Once scores, traces and dispatch orders count as facts, platform responsibility vanishes behind 'the system shows'." },
+    "w13-0-pro": { t: "Making labour visible", l: "Research on delivery riders puts the people folded away by algorithms back into the discussion." },
+    "w13-1-contra": { t: "The technical register of AI governance", l: "Writing governance as model parameters and compliance items postpones the question of who bears the cost." },
+    "w13-1-pro": { t: "Writing the cost into the question", l: "Cautions from policy chapters and implementation science say to settle 'for whom, where' before talking about performance." },
+    "w14-0-contra": { t: "Reimagining is not re-staffing", l: "Answering 'what leadership do we need' with 'a better person' keeps the myth intact." },
+    "w14-0-pro": { t: "For whom, why, where", l: "The final brief throws purpose, audience and place at you at once; inclusion starts from how the question is set." },
+    "w14-1-contra": { t: "The artwork's byline", l: "Crediting a piece to one lead creator pushes the collaboration and care in its making back offstage." },
+    "w14-1-pro": { t: "Knowing in circulation", l: "Students walk between stations, talk briefly, change their minds; the shift happens in the back-and-forth, not on the conclusions page." }
+  }
+};
